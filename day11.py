@@ -1,3 +1,6 @@
+import random
+import os
+
 clubs = {
     'A': '''
          _________
@@ -13,13 +16,13 @@ clubs = {
     ,
     'K': '''
          _________
-        |K |/|\ | |
+        |K |/|\|  |
         |♣ /o,o\  |
         |  \ _-_/ |
         | ~-_-~-_ |
         |  /~-~\  |
-        |  \ o`o/♣|
-        |  |\ |/|X|
+        |  \o`o/ ♣|
+        |  |\ |/ X|
          ~~~~~~~~~~
          '''
     ,
@@ -30,7 +33,7 @@ clubs = {
         |  \ _-_/ |
         | _-~♣_-~ |
         |  /~-~\  |
-        |  \ o`o/♣|
+        |  \o`o/ ♣|
         |  |___| Q|
          ~~~~~~~~~
          '''
@@ -171,7 +174,7 @@ diamonds = {
     ,
     'K': '''
          _________
-        |K |/|\ | |
+        |K |/|\|  |
         |♦ |♦.♦|  |
         |   \ v/  |
         |  XXXXX  |
@@ -200,7 +203,7 @@ diamonds = {
         |  ! \ l  |
         | ^^^Xvvv |
         |   l\  I |
-        |   \ ♦ )♦|
+        |   \♦ ) ♦|
         |  ~|__/ P|
          ~~~~~~~~~
          '''
@@ -488,13 +491,13 @@ spades = {
     ,
     'K': '''
          _________
-        |K |/|\ | |
+        |K |/|\|  |
         |♠ |^_^|  |
         |   \ ♠/  |
         |  ♠ K ♠  |
         |   /^\   |
         |  |o_o| ♠|
-        |  | \|/|X|
+        |  | |/| X|
          ~~~~~~~~~
          '''
     ,
@@ -517,7 +520,7 @@ spades = {
         |  ! \ l  |
         | ^^^Xvvv |
         |   l\  I |
-        |   \ o )♠|
+        |   \o ) ♠|
         |  ~|__/ P|
          ~~~~~~~~~
          '''
@@ -631,15 +634,51 @@ spades = {
          '''
 }
 
-suits = {
+cards = {
     "c": clubs,
     "s": spades,
     "h": hearts,
     "d": diamonds
 }
 
-suit = input("Choose a suit clubs(c), spades(s), hearts(h), diamonds(d) : ");
-card = input("Choose a card: ")
+def get_card():
+    random_card_1 = random.randrange(1,14)
+    if random_card_1 == 1 or random_card_1 == 11:
+        return "A"
+    elif random_card_1 == 12:
+        return "J"
+    elif random_card_1 == 13:
+        return "Q"
+    elif random_card_1 == 14:
+        return "K"
+    else:
+        return str(random_card_1)
 
-print(suits[suit][card])
+
+
+def deal():
+    random_card_1 = get_card()
+    random_card_2 = get_card()
+
+    suit_1 = random.choice(list(cards.keys()))
+    suit_2 = random.choice(list(cards.keys()))
+
+    card_1_ascii = cards[suit_1][random_card_1]
+    card_2_ascii = cards[suit_2][random_card_2]
+
+    return [card_1_ascii, card_2_ascii]
+
+dealer = []
+#player = []
+player_lost = False
+player_lost = True
+
+player = deal()
+print(player[0])
+print(player[1])
+
+#player = deal()
+
+#while player_lost is not True:
+    
 
