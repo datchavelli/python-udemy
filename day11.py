@@ -641,43 +641,87 @@ cards = {
     "d": diamonds
 }
 
-def get_card():
-    random_card_1 = random.randrange(1,14)
-    if random_card_1 == 1 or random_card_1 == 11:
-        return "A"
-    elif random_card_1 == 12:
-        return "J"
-    elif random_card_1 == 13:
-        return "Q"
-    elif random_card_1 == 14:
-        return "K"
-    else:
-        return str(random_card_1)
+def create_deck():
+    ranks = ['A'] + [str(n) for n in range(2, 11)] + ['J', "Q", "K"]
+    suits = ['c','d','h','s']
+    deck = [(rank, suit) for suit in suits for rank in ranks]
+    random.shuffle(deck)
+    return deck
 
+def deal_card(deck):
+    return deck.pop()
 
+def get_ascii_card(rank,suit):
+    return cards[suit][rank]
 
-def deal():
-    random_card_1 = get_card()
-    random_card_2 = get_card()
+def deal_hand(deck, num_cards=2):
+    hand = []
+    for _ in range(num_cards):
+        hand.append(deal_card(deck))
+    return hand
 
-    suit_1 = random.choice(list(cards.keys()))
-    suit_2 = random.choice(list(cards.keys()))
+def deal_new_card(deck,hand):
+    card = deal_card(deck)
+    hand.append(card)
+    return hand
 
-    card_1_ascii = cards[suit_1][random_card_1]
-    card_2_ascii = cards[suit_2][random_card_2]
+def calculate_score(hand):
+    score = 0
+    for value, suit in hand:
+        if value in ["J", "Q", "K"]:
+            score += 10
+        elif value == "A":
+            #can be 11 or 1
+            score += 11
+        else:
+            score += int(value)
+    return score
 
-    return [card_1_ascii, card_2_ascii]
+def print_hand(hand,skip_first=False):
+    number = 0
+    for i in hand:
+        if skip_first and number == 0:
+            print("Hidden")
+            number += 1
+            continue
+        number += 1
+        print(get_ascii_card(*i))
+    return True
 
-dealer = []
-#player = []
+deck = create_deck()
 player_lost = False
 player_lost = True
 
-player = deal()
-print(player[0])
-print(player[1])
 
+dealer = deal_hand(deck)
+player = deal_hand(deck)
+dealer_score = calculate_score(dealer)
+player_score = calculate_score(player)
+
+
+print("Dealer: \n")
+#print(dealer[0])
+print_hand(dealer,True)
+#print(dealer[1])
+
+print("Player: \n")
+print_hand(player)
+print(player_score)
+if player_score == 21:
+    print("BLACKJACK!")
 #player = deal()
+hit = "n"
+if player_score is not 21:
+    hit = input("Hit? Yes/No (y/n): ").lower()
+
+if hit == "y":
+    player = deal_new_card(deck, player)
+    player_score = calculate_score(player)
+print_hand(player)
+print(player_score)
+
+if player_score > 21:
+    print("BUST! You lose.")
 
 #while player_lost is not True:
     
