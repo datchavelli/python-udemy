@@ -1,5 +1,6 @@
 import random
 import os
+import sys
 
 clubs = {
     'A': '''
@@ -672,7 +673,10 @@ def calculate_score(hand):
             score += 10
         elif value == "A":
             #can be 11 or 1
-            score += 11
+            if score + 11 > 21:
+                score += 1
+            else:
+               score += 11
         else:
             score += int(value)
     return score
@@ -713,7 +717,9 @@ if player_score == 21:
 hit = "n"
 if player_score is not 21:
     hit = input("Hit? Yes/No (y/n): ").lower()
-
+else:
+    sys.out()
+    print("You win!")
 if hit == "y":
     player = deal_new_card(deck, player)
     player_score = calculate_score(player)
@@ -722,6 +728,8 @@ print(player_score)
 
 if player_score > 21:
     print("BUST! You lose.")
+    sys.out()
+
 
 #while player_lost is not True:
     
