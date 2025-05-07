@@ -715,7 +715,7 @@ if player_score == 21:
     print("BLACKJACK!")
 #player = deal()
 hit = "n"
-while player_score <= 21:
+while player_score < 21:
     hit = input("Hit? Yes/No (y/n): ").lower()
     if hit == "y":
         print("Dealer: \n")
@@ -732,21 +732,30 @@ while player_score <= 21:
         if dealer_score not in [17,18,19,20]:
             dealer = deal_new_card(deck, dealer)
             dealer_score = calculate_score(dealer)
+            print("Dealer: \n")
             print_hand(dealer)
 
     if dealer_score > 21 and player_score <= 21:
+        print(f"dealer: {dealer_score}")
+        print(f"player: {player_score}")
         print("You Win!")
         sys.exit()
     if dealer_score == 21 and player_score < 21:
+        print(f"dealer: {dealer_score}")
+        print(f"player: {player_score}")
         print("You Lose!")
         sys.exit()
 
     if player_score == 21:
+        print(f"dealer: {dealer_score}")
+        print(f"player: {player_score}")
         print("BLACKJACK!")
         sys.exit()
 
 if player_score > 21:
-    print("BUST! You lose.")
+    print(f"dealer: {dealer_score}")
+    print(f"player: {player_score}")
+    print("bust! you lose.")
     sys.exit()
 
 
