@@ -9,6 +9,7 @@ compare_random = random.choice(game_data.data)
 # Funkcija za poredjenje
 def compare(choiceA,choiceB):
     # Izbor
+    global compare_random
     choice = input("Who has the bigger follower count? (A or B): ").upper()
     result = 0
     # Ako je A > B
@@ -21,6 +22,7 @@ def compare(choiceA,choiceB):
     # Ako je B > A
     else:
         result = 2
+        compare_random = choiceB
 
     try: 
         if choice == "A" and result == 1:
