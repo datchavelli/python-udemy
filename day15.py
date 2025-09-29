@@ -37,7 +37,7 @@ ressources = {
     "coffee": 100
 }
 
-choices = ["espresso","latte","cappuccino","report"]
+choices = ["espresso","latte","cappuccino","report","quit"]
 money = 0
 
 def pay(choice):
@@ -53,9 +53,11 @@ def pay(choice):
         print("Enough")
         if money - MENU[choice]['cost'] == 0:
             print("Enjoy your drink, no change.")
+            money = 0
             choose()
         else:
             print(f"Enjoy your drink, your change is: ${math.ceil(money-MENU[choice]['cost'])}")
+            money = math.ceil(money-MENU[choice]['cost'])
             choose()
     else:
         print("Not enough the money")
@@ -90,6 +92,7 @@ def refil():
 def buy_coffee(choice):
     global ressources
     check_milk = False
+    needs_refil = False
 
     if choice == "espresso":
         print("Espresso") 
@@ -106,13 +109,24 @@ def buy_coffee(choice):
     if ressources['water'] - MENU[choice]['ingredients']['water'] > 0:
         print("Has water")
         ressources['water'] -= MENU[choice]['ingredients']['water']
-    elif ressources['coffee'] - MENU[choice]['ingredients']['coffee'] > 0:
+    else:
+        needs_refil = True
+        print("Needs refil")
+        refil()
+
+    if ressources['coffee'] - MENU[choice]['ingredients']['coffee'] > 0:
         print("Has coffee")
         ressources['coffee'] -= MENU[choice]['ingredients']['coffee']
-    elif check_milk and ressources['milk'] - MENU[choices]['ingredients']['milk'] > 0:
+    else:
+        needs_refil = True
+        print("Needs refil")
+        refil()
+
+    if check_milk and ressources['milk'] - MENU[choice]['ingredients']['milk'] > 0:
         print("Has milk")
         ressources['milk'] -= MENU[choice]['ingredients']['milk']
     else:
+        needs_refil = True
         print("Needs refil")
         refil()
 
@@ -135,6 +149,8 @@ def choose():
         report()
     elif choice == "refil":
         refil()
+    elif choice == "quit":
+        sys.exit()
     elif choice in choices:
         buy_coffee(choice)
     else:
