@@ -64,6 +64,7 @@ def pay(choice):
         pay(choice)
 
 def refil():
+    global ressources
     print("Please refil!")
     water = int(input("How much water?: "))
     milk  = int(input("How much milk?: "))
