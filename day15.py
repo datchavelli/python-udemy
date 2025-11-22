@@ -36,7 +36,7 @@ ressources = {
     "milk": 200,
     "coffee": 100
 }
-
+is_on = True
 choices = ["espresso","latte","cappuccino","report","quit"]
 money = 0
 
@@ -145,17 +145,21 @@ def report():
     print(f"Money: ${money}")
 
 def choose():
-    choice = input("What would you like? (espresso, latte, cappuccino): ")
-    if choice == "report":
-        report()
-    elif choice == "refil":
-        refil()
-    elif choice == "quit":
-        sys.exit()
-    elif choice in choices:
-        buy_coffee(choice)
-    else:
-        print("Wrong input.")
-        choose()
+    global is_on
+    while is_on:
+        choice = input("What would you like? (espresso, latte, cappuccino): ")
+        if choice == "report":
+            report()
+        elif choice == "off":
+            is_on = False
+        elif choice == "refil":
+            refil()
+        elif choice == "quit":
+            is_on = False
+        elif choice in choices:
+            buy_coffee(choice)
+        else:
+            print("Wrong input.")
+            choose()
 
 choose()
